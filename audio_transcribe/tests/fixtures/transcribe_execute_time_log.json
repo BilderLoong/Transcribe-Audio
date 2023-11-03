@@ -1,0 +1,23 @@
+{
+  "test_2_tiny_threads_16": {
+    "model_type": "tiny",
+    "executed_time": 19.503066301345825,
+    "audio_duration": 5.0,
+    "relative_speed": 0.25636994320503187,
+    "thread": 16
+  },
+  "test_3_tiny_threads_16": {
+    "model_type": "tiny",
+    "executed_time": 98.84549164772034,
+    "audio_duration": 1528.973061,
+    "relative_speed": 15.468313582264047,
+    "thread": 16
+  },
+  "tests_data_stereo_diarization_tiny_threads_16": {
+    "model_type": "tiny",
+    "executed_time": 7.347155332565308,
+    "audio_duration": 5.0,
+    "relative_speed": 0.6805354962128203,
+    "thread": 16
+  }
+}
