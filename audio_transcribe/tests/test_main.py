@@ -1,6 +1,10 @@
 from pathlib import Path
 import shutil
 from audio_transcribe.utils import get_sub_stem_name
+from audio_transcribe.main import (
+    get_non_word_level_subtitle_name,
+    get_translated_stem_name,
+)
 from audio_transcribe.main import main
 import pytest
 
@@ -19,12 +23,23 @@ def test_main_for_one_audio_file(audio_dir: Path, tmp_path: Path):
 
     main(threads=threads, model_type=model_type, target_dir=target_dir)
 
+    # Transcription
     assert (
         target_dir / f"{get_sub_stem_name(target_dir / 'test_1.wav', model_type)}.srt"
-    ).exists
+    ).exists()
     assert (
         target_dir / f"{get_sub_stem_name(target_dir / 'test_1.wav', model_type)}.json"
-    ).exists
+    ).exists()
+    assert target_dir / f"{get_non_word_level_subtitle_name('test_1')}.srt"
+
+    # Translation
+    translated_stem_name = get_translated_stem_name(
+        target_dir / "test_1.wav", model_type
+    )
+    assert (target_dir / f"{translated_stem_name}.json").exists()
+    assert (
+        target_dir / f"{get_non_word_level_subtitle_name(translated_stem_name)}.srt"
+    ).exists()
 
 
 def test_main_skip_already_translate_file(audio_dir: Path, tmp_path: Path):

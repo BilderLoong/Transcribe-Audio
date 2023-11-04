@@ -82,43 +82,49 @@ def transcribe(
     )
 
 
-def transcribe_by_whisper_ctranslate2(
+def transcribe_by_whisper_ctranslate2_cli(
     audio_path: Path,
     output_dir: Path,
     output_name: str,
     model_type: Literal["large-v2", "tiny"],
+    language: str = "",
+    initial_prompt="",
     device: Literal["auto", "cpu"] = "auto",
     threads: int = 0,
 ):
-    process = subprocess.run(
-        [
-            "whisper-ctranslate2",
-            "--model",
-            model_type,
-            "--initial_prompt",
-            TODO@HZL this prompt should only work for JA, add some language detection.
-            "日本語では、文の末尾に「。」を使って文章を終わらせます。また、カンマ「、」を使って文中の要素を区切ります。疑問文の場合は「？」を使用し、驚きや強調を表す場合には「！」を使います。引用文では、「」を使用します。括弧は（）や『』を使い、読点の代わりに「…」を使用することもあります。それに加えて、コロン「：」やセミコロン「；」も使用されます。以上のように、日本語では様々な句読点を使って文章を表現します。",
-            TODO@HZL this prompt should only work for JA, add some language detection.
-            # "--max_line_width",
-            # "13",
-            # "--max_line_count",
-            # "20",
-            "--highlight_words",
-            "True",
-            "--pretty_json",
-            "True",
-            "--print_colors",
-            "True",
-            "--word_timestamp",
-            "True",
-            "--threads",
-            str(threads),
-            "--output_dir",
-            output_dir,
-            audio_path,
-        ]
-    )
-    # whisper-ctranslate2 --print_colors True  --language ja --threads 32 --word_timestamp True --model large-v2 --verbose True  --highlight_words True --max_line_width 13 --max_line_count 13  --initial_prompt "日本語では、文の末尾に「。」を使って文章を終わらせます。また、カンマ「、」を使って文中の要素を区切ります。疑問文の場合は「？」を使用し、驚きや強調を表す場合には「！」を使います。引用文では、「」を使用します。括弧は（）や『』を使い、読点の代わりに「…」を使用することもあります。それに加えて、コロン「：」やセミコロン「；」も使用されます。以上のように、日本語では様々な句読点を使って文章を表現します。" "test_1_min.mp3"
+    args = [
+        "whisper-ctranslate2",
+        "--model",
+        model_type,
+        "--highlight_words",
+        "True",
+        "--pretty_json",
+        "True",
+        "--print_colors",
+        "True",
+        "--word_timestamp",
+        "True",
+        "--threads",
+        str(threads),
+        "--output_dir",
+        output_dir,
+        audio_path,
+    ]
+
+    if initial_prompt:
+        print(f"Using initial_prompt:{initial_prompt} when transcribing.")
+        args.extend(
+            [
+                "--initial_prompt",
+                initial_prompt,
+            ]
+        )
+
+    if language:
+        args.extend(["--language", language])
+
+    process = subprocess.run(args)
+    # whisper-ctranslate2 --print_colors True  --language ja --threads 32 --word_timestamp True --model large-v2 --verbose True  --highlight_words True --max_line_width 13 --max_line_count 13  --initial_prompt "、 。 ！ ？ 「」 （） ［］ ｛｝ 【】 ・ … ゠" "test_1_min.mp3"
     # ffmpeg -i "銃・病原菌・鉄 上/003 - 銃・病原菌・鉄 上.mp3" -t 00:01:00 -acodec copy test_1_min.mp3
 
     rename_output_files(audio_path, output_name)
@@ -135,7 +141,7 @@ def rename_output_files(audio_path: Path, target_name: str):
         if source.is_file():
             # async may cause race condition.
             # source.rename(target)
-            
+
             os.rename(source, target)
 
 
