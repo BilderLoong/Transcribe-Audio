@@ -14,6 +14,7 @@ import time
 import os
 import ffmpeg
 from .utils import get_sub_stem_name, recursive_merge
+import pysubs2, json
 
 proxy = "http://127.0.0.1:7890"
 os.environ["http_proxy"] = proxy
@@ -79,6 +80,20 @@ def log_execute_time(
         json.dump(merged_dict, f, indent=2)
 
 
+def get_non_word_level_subtitle_name(stem: str):
+    return f"{ stem }_non_word_level.srt"
+
+
+def generate_line_level_subtitles(whisper_json_file: Path, output_dir: Path):
+    with open(whisper_json_file, encoding="utf-8") as file:
+        sub_dict = json.load(file)
+        subs = pysubs2.load_from_whisper(sub_dict)
+        file = output_dir / Path(get_non_word_level_subtitle_name(whisper_json_file.stem))
+        print(str(file))
+        subs.save(str(file))
+        return file
+
+
 def main(threads: int, model_type: Literal["large-v2", "tiny"], target_dir: Path):
     if not target_dir.is_dir():
         logging.error(f"{target_dir.resolve()} does not exist.")
@@ -89,9 +104,9 @@ def main(threads: int, model_type: Literal["large-v2", "tiny"], target_dir: Path
     for audio_file in iterate_audio_files_recursively(target_dir):
         audio_file = audio_file.resolve()
 
+        output_name = get_sub_stem_name(audio_file, model_type)
+        output_dir = audio_file.parent
         if not is_already_transcribed(file=audio_file, module_type=model_type):
-            output_name = get_sub_stem_name(audio_file, model_type)
-
             print(f"Transcribing: {audio_file}")
             print(
                 f"Transcribed files in current session: {transcribed_count_in_current_session}"
@@ -104,11 +119,12 @@ def main(threads: int, model_type: Literal["large-v2", "tiny"], target_dir: Path
             start = time.time()
             transcribe_by_whisper_ctranslate2(
                 audio_path=audio_file,
-                output_dir=audio_file.parent,
+                output_dir=output_dir,
                 model_type=model_type,
                 output_name=output_name,
                 threads=threads,
             )
+
             end = time.time()
             executed_time = end - start
             log_file = target_dir / "transcribe_execute_time_log.json"
@@ -126,6 +142,10 @@ def main(threads: int, model_type: Literal["large-v2", "tiny"], target_dir: Path
             transcribed_count_in_current_session = (
                 transcribed_count_in_current_session + 1
             )
+
         else:
             all_transcribed_transcribed_count = all_transcribed_transcribed_count + 1
             print(f"Skip already transcribed file: {audio_file}.")
+        generate_line_level_subtitles(
+            output_dir=output_dir, whisper_json_file=output_dir / f"{output_name}.json"
+        )
