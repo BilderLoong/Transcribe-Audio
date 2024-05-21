@@ -91,18 +91,21 @@ def transcribe_by_whisper_ctranslate2_cli(
     initial_prompt="",
     device: Literal["auto", "cpu"] = "auto",
     threads: int = 0,
+    word_timestamp: bool = True,
 ):
     args = [
         "whisper-ctranslate2",
         "--model",
         model_type,
+        # "--max_line_width",
+        # "15",
+        # "--max_line_count",
+        # "15",
         "--highlight_words",
         "True",
         "--pretty_json",
         "True",
         "--print_colors",
-        "True",
-        "--word_timestamp",
         "True",
         "--threads",
         str(threads),
@@ -110,6 +113,15 @@ def transcribe_by_whisper_ctranslate2_cli(
         output_dir,
         audio_path,
     ]
+
+    if word_timestamp:
+        print(f"Using word_timestamp when transcribing.")
+        args.extend(
+            [
+                "--word_timestamp",
+                "True",
+            ]
+        )
 
     if initial_prompt:
         print(f"Using initial_prompt:{initial_prompt} when transcribing.")
@@ -123,6 +135,7 @@ def transcribe_by_whisper_ctranslate2_cli(
     if language:
         args.extend(["--language", language])
 
+    print(f"Transcribe command args: {args}")
     process = subprocess.run(args)
     # whisper-ctranslate2 --print_colors True  --language ja --threads 32 --word_timestamp True --model large-v2 --verbose True  --highlight_words True --max_line_width 13 --max_line_count 13  --initial_prompt "、 。 ！ ？ 「」 （） ［］ ｛｝ 【】 ・ … ゠" "test_1_min.mp3"
     # ffmpeg -i "銃・病原菌・鉄 上/003 - 銃・病原菌・鉄 上.mp3" -t 00:01:00 -acodec copy test_1_min.mp3

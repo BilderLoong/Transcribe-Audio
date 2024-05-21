@@ -1,12 +1,12 @@
 ## Testing
 
-If haven't install the editable install. Run the following command, in the directory same with the `pyproject.toml` file.
+Suppose haven't installed the editable install. Run the following commands, in the directory the same with the `pyproject.toml` file.
 
 ```shell
-pip install -e .
+pip install -e . # This will also add the 
 ```
 
-then run tests.
+Then, run tests.
 
 ```shell
 pytest 

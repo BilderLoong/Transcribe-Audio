@@ -1,0 +1,9 @@
+{
+  "test_1_large-v2_threads_32": {
+    "model_type": "large-v2",
+    "executed_time": 26.892642498016357,
+    "audio_duration": 5.0,
+    "relative_speed": 0.18592445872021715,
+    "thread": 32
+  }
+}

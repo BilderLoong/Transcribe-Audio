@@ -1,3 +1,7 @@
+import sys
+
+
+print(sys.path)
 import shutil
 from audio_transcribe.detect_language import detect_language
 from pathlib import Path

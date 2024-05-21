@@ -1,0 +1,72 @@
+1
+00:00:00,000 --> 00:00:00,380
+<u>He</u> began a confused complaint against the wizard, who had vanished behind the curtain on the left.
+
+2
+00:00:00,380 --> 00:00:00,700
+He <u>began</u> a confused complaint against the wizard, who had vanished behind the curtain on the left.
+
+3
+00:00:00,700 --> 00:00:00,860
+He began <u>a</u> confused complaint against the wizard, who had vanished behind the curtain on the left.
+
+4
+00:00:00,860 --> 00:00:01,160
+He began a <u>confused</u> complaint against the wizard, who had vanished behind the curtain on the left.
+
+5
+00:00:01,160 --> 00:00:01,560
+He began a confused <u>complaint</u> against the wizard, who had vanished behind the curtain on the left.
+
+6
+00:00:01,560 --> 00:00:01,920
+He began a confused complaint <u>against</u> the wizard, who had vanished behind the curtain on the left.
+
+7
+00:00:01,920 --> 00:00:02,040
+He began a confused complaint against <u>the</u> wizard, who had vanished behind the curtain on the left.
+
+8
+00:00:02,040 --> 00:00:02,340
+He began a confused complaint against the <u>wizard,</u> who had vanished behind the curtain on the left.
+
+9
+00:00:02,340 --> 00:00:02,660
+He began a confused complaint against the wizard, who had vanished behind the curtain on the left.
+
+10
+00:00:02,660 --> 00:00:02,760
+He began a confused complaint against the wizard, <u>who</u> had vanished behind the curtain on the left.
+
+11
+00:00:02,760 --> 00:00:02,900
+He began a confused complaint against the wizard, who <u>had</u> vanished behind the curtain on the left.
+
+12
+00:00:02,900 --> 00:00:03,220
+He began a confused complaint against the wizard, who had <u>vanished</u> behind the curtain on the left.
+
+13
+00:00:03,220 --> 00:00:03,500
+He began a confused complaint against the wizard, who had vanished <u>behind</u> the curtain on the left.
+
+14
+00:00:03,500 --> 00:00:03,720
+He began a confused complaint against the wizard, who had vanished behind <u>the</u> curtain on the left.
+
+15
+00:00:03,720 --> 00:00:03,980
+He began a confused complaint against the wizard, who had vanished behind the <u>curtain</u> on the left.
+
+16
+00:00:03,980 --> 00:00:04,160
+He began a confused complaint against the wizard, who had vanished behind the curtain <u>on</u> the left.
+
+17
+00:00:04,160 --> 00:00:04,320
+He began a confused complaint against the wizard, who had vanished behind the curtain on <u>the</u> left.
+
+18
+00:00:04,320 --> 00:00:04,600
+He began a confused complaint against the wizard, who had vanished behind the curtain on the <u>left.</u>
+

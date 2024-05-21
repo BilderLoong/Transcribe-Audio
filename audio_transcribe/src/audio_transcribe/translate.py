@@ -31,21 +31,21 @@ def translate_by_whisper_ctranslate2_cli(
         "whisper-ctranslate2",
         "--model",
         model_type,
-        "--highlight_words",
-        "True",
+        # "--highlight_words",
+        # "True",
         "--pretty_json",
         "True",
-        "--print_colors",
-        "True",
-        "--word_timestamp",
-        "True",
+        # "--print_colors",
+        # "True",
+        # "--word_timestamp",
+        # "True",
         "--threads",
         str(threads),
         "--output_dir",
-        output_dir,
+        str(output_dir),
         "--task",
         "translate",
-        audio_path,
+        str(audio_path),
     ]
     if language:
         args.extend(["--language", language])
@@ -57,7 +57,7 @@ def translate_by_whisper_ctranslate2_cli(
                 initial_prompt,
             ]
         )
-
+    print(f"Translate command args: {args}")
     process = subprocess.run(args=args)
     # whisper-ctranslate2 --print_colors True  --language ja --threads 32 --word_timestamp True --model large-v2 --verbose True  --highlight_words True --max_line_width 13 --max_line_count 13  --initial_prompt "、 。 ！ ？ 「」 （） ［］ ｛｝ 【】 ・ … ゠" "test_1_min.mp3"
     # ffmpeg -i "銃・病原菌・鉄 上/003 - 銃・病原菌・鉄 上.mp3" -t 00:01:00 -acodec copy test_1_min.mp3

@@ -12,7 +12,9 @@ import pytest
 @pytest.fixture(scope="module")
 def one_audio_dir(audio_dir, tmp_path_factory):
     dir = tmp_path_factory.mktemp("one_audio_dir")
+
     yield shutil.copytree(Path(audio_dir) / "one_file", dir, dirs_exist_ok=True)
+
     shutil.rmtree(dir)
 
 
@@ -21,7 +23,7 @@ def test_main_for_one_audio_file(audio_dir: Path, tmp_path: Path):
     threads = 16
     target_dir = audio_dir / "one_file"
 
-    main(threads=threads, model_type=model_type, target_dir=target_dir)
+    main(threads=threads, model_type=model_type, target_file_or_dir=target_dir)
 
     # Transcription
     assert (

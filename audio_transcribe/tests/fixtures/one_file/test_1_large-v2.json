@@ -1,0 +1,161 @@
+{
+    "text": " He began a confused complaint against the wizard, who had vanished behind the curtain on the left.",
+    "segments": [
+        {
+            "id": 1,
+            "seek": 500,
+            "start": 0.0,
+            "end": 3.98,
+            "text": " He began a confused complaint against the wizard, who had vanished behind the curtain",
+            "tokens": [
+                50364,
+                634,
+                4283,
+                257,
+                9019,
+                20100,
+                1970,
+                264,
+                25807,
+                11,
+                567,
+                632,
+                37518,
+                2261,
+                264,
+                26789,
+                50564
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.3133931855360667,
+            "compression_ratio": 1.1395348837209303,
+            "no_speech_prob": 0.008127653039991856,
+            "words": [
+                {
+                    "start": 0.0,
+                    "end": 0.38,
+                    "word": " He",
+                    "probability": 0.46118366718292236
+                },
+                {
+                    "start": 0.38,
+                    "end": 0.68,
+                    "word": " began",
+                    "probability": 0.8143138885498047
+                },
+                {
+                    "start": 0.68,
+                    "end": 0.86,
+                    "word": " a",
+                    "probability": 0.6604962944984436
+                },
+                {
+                    "start": 0.86,
+                    "end": 1.16,
+                    "word": " confused",
+                    "probability": 0.6531819701194763
+                },
+                {
+                    "start": 1.16,
+                    "end": 1.54,
+                    "word": " complaint",
+                    "probability": 0.8106553554534912
+                },
+                {
+                    "start": 1.54,
+                    "end": 1.92,
+                    "word": " against",
+                    "probability": 0.8766781687736511
+                },
+                {
+                    "start": 1.92,
+                    "end": 2.04,
+                    "word": " the",
+                    "probability": 0.8035722970962524
+                },
+                {
+                    "start": 2.04,
+                    "end": 2.34,
+                    "word": " wizard,",
+                    "probability": 0.7136306762695312
+                },
+                {
+                    "start": 2.66,
+                    "end": 2.76,
+                    "word": " who",
+                    "probability": 0.8174190521240234
+                },
+                {
+                    "start": 2.76,
+                    "end": 2.9,
+                    "word": " had",
+                    "probability": 0.8165134191513062
+                },
+                {
+                    "start": 2.9,
+                    "end": 3.22,
+                    "word": " vanished",
+                    "probability": 0.8621675968170166
+                },
+                {
+                    "start": 3.22,
+                    "end": 3.5,
+                    "word": " behind",
+                    "probability": 0.8690448999404907
+                },
+                {
+                    "start": 3.5,
+                    "end": 3.72,
+                    "word": " the",
+                    "probability": 0.8048167824745178
+                },
+                {
+                    "start": 3.72,
+                    "end": 3.98,
+                    "word": " curtain",
+                    "probability": 0.8225982189178467
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "seek": 500,
+            "start": 3.98,
+            "end": 4.6,
+            "text": " on the left.",
+            "tokens": [
+                50564,
+                322,
+                264,
+                1411,
+                13,
+                50598
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.3133931855360667,
+            "compression_ratio": 1.1395348837209303,
+            "no_speech_prob": 0.008127653039991856,
+            "words": [
+                {
+                    "start": 3.98,
+                    "end": 4.16,
+                    "word": " on",
+                    "probability": 0.8760354518890381
+                },
+                {
+                    "start": 4.16,
+                    "end": 4.32,
+                    "word": " the",
+                    "probability": 0.789901614189148
+                },
+                {
+                    "start": 4.32,
+                    "end": 4.6,
+                    "word": " left.",
+                    "probability": 0.8430525660514832
+                }
+            ]
+        }
+    ],
+    "language": "English"
+}

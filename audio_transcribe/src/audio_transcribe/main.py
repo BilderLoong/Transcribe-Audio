@@ -9,6 +9,8 @@ import json
 from pathlib import Path
 import logging
 from typing import Literal
+
+from audio_transcribe.dir_meta import get_file_meta, save_file_meta
 from .transcribe import transcribe_by_whisper_ctranslate2_cli
 from .translate import translate_by_whisper_ctranslate2_cli
 import time
@@ -42,7 +44,7 @@ def is_transcribed(file: Path, model_type: str):
     if not file.is_file():
         return False
 
-    srt_file_name = f"{get_sub_stem_name(file, model_type)}.json"
+    srt_file_name = f"{get_sub_stem_name(file, model_type)}.srt"
     srt_file_path = file.parent / srt_file_name
 
     return Path(srt_file_path).exists()
@@ -119,16 +121,25 @@ def generate_line_level_subtitles(whisper_json_file: Path, output_dir: Path):
         return file
 
 
-def main(threads: int, model_type: Literal["large-v2", "tiny"], target_dir: Path):
-    if not target_dir.is_dir():
-        logging.error(f"{target_dir.resolve()} does not exist.")
+def main(
+    threads: int, model_type: Literal["large-v2", "tiny"], target_file_or_dir: Path
+):
+    if not target_file_or_dir.is_dir():
+        logging.error(f"{target_file_or_dir.resolve()} does not exist.")
 
     transcribed_count_in_current_session = 0
     all_transcribed_transcribed_count = 0
 
-    for audio_file in iterate_audio_files_recursively(target_dir):
+    for audio_file in iterate_audio_files_recursively(target_file_or_dir):
         audio_file = audio_file.resolve()
-        language = detect_language(audio_path=audio_file)
+
+        audio_file_meta = get_file_meta(audio_file)
+        language = audio_file_meta.get("language")
+        if not language:
+            language = detect_language(audio_path=audio_file)
+            audio_file_meta.update({"language": language})
+            save_file_meta(audio_file, audio_file_meta)
+
         print(f"Detected language: {language}")
 
         translated_stem_name = get_sub_stem_name(audio_file, model_type)
@@ -140,7 +151,7 @@ def main(threads: int, model_type: Literal["large-v2", "tiny"], target_dir: Path
             )
             print(f"All transcribed files: {all_transcribed_transcribed_count}")
             print(
-                f"Remain files amount: {len(list(iterate_audio_files_recursively(target_dir)))-all_transcribed_transcribed_count}"
+                f"Remain files amount: {len(list(iterate_audio_files_recursively(target_file_or_dir)))-all_transcribed_transcribed_count}"
             )
 
             start = time.time()
@@ -151,14 +162,15 @@ def main(threads: int, model_type: Literal["large-v2", "tiny"], target_dir: Path
                 output_name=translated_stem_name,
                 threads=threads,
                 language=language,
-                initial_prompt="日本語では、文の末尾に「。」を使って文章を終わらせます。また、カンマ「、」を使って文中の要素を区切ります。疑問文の場合は「？」を使用し、驚きや強調を表す場合には「！」を使います。引用文では、「」を使用します。括弧は（）や『』を使い、読点の代わりに「…」を使用することもあります。それに加えて、コロン「：」やセミコロン「；」も使用されます。以上のように、日本語では様々な句読点を使って文章を表現します。"
-                if language == "ja"
-                else "",
+                # initial_prompt="日本語では、文の末尾に「。」を使って文章を終わらせます。また、カンマ「、」を使って文中の要素を区切ります。疑問文の場合は「？」を使用し、驚きや強調を表す場合には「！」を使います。引用文では、「」を使用します。括弧は（）や『』を使い、読点の代わりに「…」を使用することもあります。それに加えて、コロン「：」やセミコロン「；」も使用されます。以上のように、日本語では様々な句読点を使って文章を表現します。"
+                # # initial_prompt="日本語では、「。」で終わり、カンマ「、」で区切り、疑問文には「？」、驚きや強調には「！」、引用文には「」、括弧には（）や『』、読点には「…」、コロンには「：」、セミコロンには「；」を使います。"
+                # if language == "ja"
+                # else "",
             )
 
             end = time.time()
             executed_time = end - start
-            log_file = target_dir / "transcribe_execute_time_log.json"
+            log_file = target_file_or_dir / "transcribe_execute_time_log.json"
 
             if executed_time > 0:
                 log_execute_time(
@@ -182,7 +194,10 @@ def main(threads: int, model_type: Literal["large-v2", "tiny"], target_dir: Path
             whisper_json_file=output_dir / f"{translated_stem_name}.json",
         )
 
-        if not is_translated(file=audio_file, model_type=model_type):
+        print(f"language: {language}")
+        if language != "en" and not is_translated(
+            file=audio_file, model_type=model_type
+        ):
             translated_stem_name = get_translated_stem_name(
                 audio_file, model_type=model_type
             )
